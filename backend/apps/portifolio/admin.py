@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Project, Skill, Experience
-
+from .models import Project, Skill, Experience, SkillCategory
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
@@ -18,3 +17,9 @@ class ExperienceAdmin(admin.ModelAdmin):
     list_display = ('position', 'company', 'start_year')
     search_fields = ('position', 'company')
     list_filter = ('start_year',)
+
+@admin.register(SkillCategory)
+class SkillCategoryAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+    search_fields = ('title',)
+

@@ -1,5 +1,23 @@
 from django.db import models
 
+class SkillCategory(models.Model):
+    title = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.title
+
+class Skill(models.Model):
+    category = models.ForeignKey(
+        SkillCategory, 
+        on_delete=models.CASCADE, 
+        related_name='skills'
+        )
+    name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.name
+
+
 class Project(models.Model):
 
     title = models.CharField(max_length=200)
@@ -7,20 +25,12 @@ class Project(models.Model):
     image = models.ImageField(upload_to='fotos/%Y/%m/%d/', blank=True)
     link = models.URLField(blank=True)
     github_link = models.URLField(blank=True)
-    tags = models.ManyToManyField('Skill', blank=True, related_name='projects')
+    tags = models.ManyToManyField(Skill, blank=True, related_name='projects')
 
     def __str__(self):
         return self.title
     
 
-
-class Skill(models.Model):
-
-    name = models.CharField(max_length=100)
-    
-    def __str__(self):
-        return self.name
-    
 
 class Experience(models.Model):
 
