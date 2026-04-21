@@ -22,7 +22,7 @@ class Project(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='fotos/%Y/%m/%d/', blank=True)
+    image = models.ImageField(upload_to='images/', blank=True)
     link = models.URLField(blank=True)
     github_link = models.URLField(blank=True)
     tags = models.ManyToManyField(Skill, blank=True, related_name='projects')

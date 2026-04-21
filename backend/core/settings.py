@@ -127,6 +127,6 @@ STATIC_URL = 'static/'
 
 # Media files (Uploaded images)
 
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'frontend' / 'static' / 'assets'
+MEDIA_URL = 'assets/'
 

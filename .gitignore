@@ -32,10 +32,6 @@ MANIFEST
 *.manifest
 *.spec
 
-# Media & Assets
-/media/
-*assets/
-
 
 # Installer logs
 pip-log.txt
