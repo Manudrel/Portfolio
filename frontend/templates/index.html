@@ -160,6 +160,11 @@
               <p>
                 {{ exp.description|linebreaksbr }}
               </p>
+              <div class="project-card__tags">
+                {% for tag in exp.tags.all %}
+                  <span class="tag">{{ tag.name }}</span>
+                {% endfor %}
+              </div>
             </div>
           </li>
         {% endfor %}
@@ -191,25 +196,25 @@
         {% for project in projects %}
           <article class="project-card glow-border">
             <div class="project-card__img">
-              {% if project.image == '' or project.image == null %}
-                <img
-                  src="https://via.placeholder.com/600x338/0a0a0a/7D39EB?text=Project+Preview"
-                  alt="Preview of {{ project.title }}"
-                  loading="lazy"
-                />
+              {% if project.image %}
+                  <img
+                      src="{{ project.image.url }}"
+                      alt="Preview of {{ project.title }}"
+                      loading="lazy"
+                  />
               {% else %}
-                <img
-                  src="{{ project.image.url }}"
-                  alt="Preview of {{ project.title }}"
-                  loading="lazy"
-                />
+                  <img
+                      src="{% static 'assets/placeholder.png' %}"
+                      alt="Preview of {{ project.title }}"
+                      loading="lazy"
+                  />
               {% endif %}
             </div>
 
             <div class="project-card__body">
               <h3 class="project-card__title">{{ project.title }}</h3>
               <p class="project-card__desc">
-                {{ project.description }}
+                {{ project.description|linebreaksbr }}
               </p>
               <div class="project-card__tags">
                 {% for tag in project.tags.all %}
@@ -241,18 +246,23 @@
 
       <!-- Informações + redes sociais -->
       <div class="contact__info">
-        <h2 class="section-title">X <span class="gradient-text">Y</span></h2>
+        <h2 class="section-title">Contact <span class="gradient-text">Me</span></h2>
 
         <!-- TEXTO -->
         <p>
-          X
+          I'm currently focused on backend development and building scalable, real-world solutions. 
+          If you're looking for someone to develop APIs, work with data, or collaborate on innovative projects, feel free to reach out.
+          <br><br>
+          I'm always open to new opportunities and challenges.
         </p>
 
         <div class="contact__services">
           <h4>What I do</h4>
           
           <ul>
-            <li>Web Backend Development</li>
+            <li>Backend Development (APIs, Microservices)</li>
+            <li>Data Processing & Automation</li>
+            <li>Artificial Intelligence Integration</li>
           </ul>
         </div>
 

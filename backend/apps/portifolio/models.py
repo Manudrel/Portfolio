@@ -38,6 +38,8 @@ class Experience(models.Model):
     position = models.CharField(max_length=200)
     start_year = models.IntegerField()
     description = models.TextField()
+    tags = models.ManyToManyField(Skill, blank=True, related_name='experiences')
+
 
     def __str__(self):
         return f"{self.position} at {self.company}" 

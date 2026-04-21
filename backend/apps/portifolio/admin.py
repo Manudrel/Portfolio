@@ -16,7 +16,7 @@ class SkillAdmin(admin.ModelAdmin):
 class ExperienceAdmin(admin.ModelAdmin):
     list_display = ('position', 'company', 'start_year')
     search_fields = ('position', 'company')
-    list_filter = ('start_year',)
+    list_filter = ('start_year', 'tags')
 
 @admin.register(SkillCategory)
 class SkillCategoryAdmin(admin.ModelAdmin):
