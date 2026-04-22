@@ -1,6 +1,8 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANG %}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,11 +36,41 @@
 
       <ul class="navbar__links" id="navLinks" role="list">
         <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">{% trans "About" %}</a></li>
+        <li><a href="#projects">{% trans "Projects" %}</a></li>
+        <li><a href="#contact">{% trans "Contact" %}</a></li>
       </ul>
+      <div class="lang-switcher" id="langSwitcher">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
 
+        <button class="lang-switcher__btn" id="langBtn" aria-haspopup="listbox" aria-expanded="false">
+          {% if LANGUAGE_CODE == 'pt-br' %}
+            <img src="https://flagcdn.com/w40/br.png" alt="PT-BR" width="24" height="16" />
+          {% else %}
+            <img src="https://flagcdn.com/w40/gb.png" alt="EN" width="24" height="16" />
+          {% endif %}
+        </button>
+
+        <ul class="lang-switcher__dropdown" id="langDropdown" role="listbox">
+          {% for lang_code, lang_name in LANGUAGES %}
+            <li role="option">
+              <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.path }}">
+                <input name="language" type="hidden" value="{{ lang_code }}">
+                <button type="submit" title="{{ lang_name }}" {% if lang_code == LANGUAGE_CODE %}class="active"{% endif %}>
+                  {% if lang_code == 'pt-br' %}
+                    <img src="https://flagcdn.com/w40/br.png" alt="Português" width="28" height="19" />
+                  {% else %}
+                    <img src="https://flagcdn.com/w40/gb.png" alt="English" width="28" height="19" />
+                  {% endif %}
+                </button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
       <!-- Hamburger (mobile) -->
       <button class="navbar__hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -59,16 +91,16 @@
       </h1>
 
       <!-- Subtítulo -->
-      <p class="hero__subtitle">BackEnd Developer</p>
+      <p class="hero__subtitle">Backend Developer</p>
 
       <!-- Texto de introdução -->
       <p class="hero__desc">
-        BackEnd Developer focoused in Python, MultiAgent Systems and Operational Workflow Automation.
+        {% trans "Backend Developer focoused in Python, MultiAgent Systems and Operational Workflow Automation." %}
       </p>
 
       <div class="hero__cta">
-        <a href="#projects" class="btn btn-primary">View My Work</a>
-        <a href="{% static 'assets/cv.pdf' %}" download class="btn btn-outline">Download CV</a>
+        <a href="#projects" class="btn btn-primary">{% trans "View My Work" %}</a>
+        <a href="{% static 'assets/cv.pdf' %}" download class="btn btn-outline">{% trans "Download CV" %}</a>
       </div>
 
       <!-- Indicador de scroll animado -->
@@ -89,16 +121,16 @@
 
       <!-- Texto -->
       <div class="about__text">
-        <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+        <h2 class="section-title">{% trans "About" %} <span class="gradient-text">{% trans "Me" %}</span></h2>
 
         <p>
-          I am a Backend Developer specializing in Python, Django, and FastAPI, with a proven track record of building scalable systems and outcome-driven software architecture. My focus lies in developing high-performance RESTful APIs and automating complex processes to drive operational efficiency.
+          {% trans "I am a Backend Developer specializing in Python, Django, and FastAPI, with a proven track record of building scalable systems and outcome-driven software architecture. My focus lies in developing high-performance RESTful APIs and automating complex processes to drive operational efficiency." %}
         </p>
         <p>
-          My expertise includes integrating Artificial Intelligence within production-ready environments. I have led technical projects involving multi-agent systems, RAG (Retrieval-Augmented Generation) with vector databases, and microservices architecture, utilizing a robust stack that includes PostgreSQL, Docker, and Git.
+          {% trans "My expertise includes integrating Artificial Intelligence within production-ready environments. I have led technical projects involving multi-agent systems, RAG (Retrieval-Augmented Generation) with vector databases, and microservices architecture, utilizing a robust stack that includes PostgreSQL, Docker, and Git." %}
         </p>
         <p>
-          Guided by Agile methodologies like Scrum and Kanban, I am dedicated to continuous learning and delivering robust, scalable solutions. I am always looking for challenges that allow me to apply intelligent automation and clean code to solve real-world problems.
+          {% trans "Guided by Agile methodologies like Scrum and Kanban, I am dedicated to continuous learning and delivering robust, scalable solutions. I am always looking for challenges that allow me to apply intelligent automation and clean code to solve real-world problems." %}
         </p>
       </div>
 
@@ -124,8 +156,8 @@
   <section class="skills section" id="skills" aria-label="Habilidades e experiência">
     <div class="container">
 
-      <h2 class="section-title">Skills &amp; <span class="gradient-text">Technologies</span></h2>
-      <p class="section-sub">Technologies I work with on a daily basis.</p>
+      <h2 class="section-title">{% trans "Skills" %} &amp; <span class="gradient-text">{% trans "Technologies" %}</span></h2>
+      <p class="section-sub">{% trans "Technologies I work with on a daily basis." %}</p>
 
       <div class="skills__grid">
 
@@ -144,7 +176,7 @@
       </div>
 
       <!-- Timeline de experiências -->
-      <h2 class="exp__title">Experience</h2>
+      <h2 class="exp__title">{% trans "Experience" %}</h2>
 
       <ol class="timeline">
 
@@ -155,10 +187,21 @@
               <span class="timeline-badge">{{ exp.start_year }}</span>
             </div>
             <div class="timeline-content glow-border">
-              <h4>{{ exp.position }}</h4>
+              <h4>
+                {% if LANG == 'en' %}
+                  {{ exp.position }}
+                {% else %}
+                  {{ exp.position_pt|default:exp.position }}
+                {% endif %}
+              </h4>
               <span class="company">{{ exp.company }}</span>
               <p>
-                {{ exp.description|linebreaksbr }}
+                {% if LANG == 'en' %}
+                  {{ exp.description|linebreaksbr }}
+                {% else %}
+                  {{ exp.description_pt|default:exp.description|linebreaksbr }}
+                {% endif %}
+                <br><br>
               </p>
               <div class="project-card__tags">
                 {% for tag in exp.tags.all %}
@@ -180,10 +223,10 @@
     <div class="container">
 
       <header class="projects__header">
-        <h2 class="section-title">My <span class="gradient-text">Projects</span></h2>
+        <h2 class="section-title">{% trans "My" %} <span class="gradient-text">{% trans "Projects" %}</span></h2>
         <p class="section-sub">
-          A collection of projects I've worked on, ranging from Web applications
-          to AI Projects and everything in between.
+          {% trans "A collection of projects I've worked on, ranging from Web applications" %}
+          {% trans "to AI Projects and everything in between." %}
         </p>
       </header>
 
@@ -214,7 +257,12 @@
             <div class="project-card__body">
               <h3 class="project-card__title">{{ project.title }}</h3>
               <p class="project-card__desc">
-                {{ project.description|linebreaksbr }}
+                {% if LANG == 'en' %}
+                  {{ project.description|linebreaksbr }}
+                {% else %}
+                  {{ project.description_pt|default:project.description|linebreaksbr }}
+                {% endif %}
+                
               </p>
               <div class="project-card__tags">
                 {% for tag in project.tags.all %}
@@ -246,27 +294,27 @@
 
       <!-- Informações + redes sociais -->
       <div class="contact__info">
-        <h2 class="section-title">Contact <span class="gradient-text">Me</span></h2>
+        <h2 class="section-title">{% trans "Contact" %} <span class="gradient-text">{% trans "Me" %}</span></h2>
 
         <!-- TEXTO -->
         <p>
-          I'm currently focused on backend development and building scalable, real-world solutions. 
-          If you're looking for someone to develop APIs, work with data, or collaborate on innovative projects, feel free to reach out.
+          {% trans "I'm currently focused on backend development and building scalable, real-world solutions. " %}
+          {% trans "If you're looking for someone to develop APIs, work with data, or collaborate on innovative projects, feel free to reach out." %}
           <br><br>
-          I'm always open to new opportunities and challenges.
+          {% trans "I'm always open to new opportunities and challenges." %}
         </p>
 
         <div class="contact__services">
-          <h4>What I do</h4>
-          
+          <h4>{% trans "What I do" %}</h4>
+
           <ul>
-            <li>Backend Development (APIs, Microservices)</li>
-            <li>Data Processing & Automation</li>
-            <li>Artificial Intelligence Integration</li>
+            <li>{% trans "Backend Development (APIs, Microservices)" %}</li>
+            <li>{% trans "Data Processing & Automation" %}</li>
+            <li>{% trans "Artificial Intelligence Integration" %}</li>
           </ul>
         </div>
 
-        <p class="socials__label">My Socials</p>
+        <p class="socials__label">{% trans "My Socials" %}</p>
         <div class="socials">
           <a href="mailto:duarteemanuelsimoes@gmail.com" class="social-link" title="Email" aria-label="Enviar email">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">

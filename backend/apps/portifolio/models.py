@@ -9,8 +9,10 @@ class SkillCategory(models.Model):
 class Skill(models.Model):
     category = models.ForeignKey(
         SkillCategory, 
-        on_delete=models.CASCADE, 
-        related_name='skills'
+        on_delete=models.SET_NULL, 
+        related_name='skills',
+        null=True,
+        blank=True
         )
     name = models.CharField(max_length=100)
     
@@ -22,6 +24,7 @@ class Project(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField()
+    description_pt = models.TextField(blank=True)
     image = models.ImageField(upload_to='images/', blank=True)
     link = models.URLField(blank=True)
     github_link = models.URLField(blank=True)
@@ -38,6 +41,8 @@ class Experience(models.Model):
     position = models.CharField(max_length=200)
     start_year = models.IntegerField()
     description = models.TextField()
+    position_pt = models.CharField(max_length=200, blank=True)
+    description_pt = models.TextField(blank=True)
     tags = models.ManyToManyField(Skill, blank=True, related_name='experiences')
 
 

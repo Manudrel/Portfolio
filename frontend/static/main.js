@@ -40,23 +40,21 @@ document.querySelectorAll(
 });
 
 
-const contactForm = document.getElementById('contactForm');
+// Lang switcher
+const langBtn      = document.getElementById('langBtn');
+const langDropdown = document.getElementById('langDropdown');
 
-contactForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+if (langBtn && langDropdown) {
+  langBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = langDropdown.classList.toggle('open');
+    langBtn.setAttribute('aria-expanded', String(isOpen));
+  });
 
-  const btn = contactForm.querySelector('button[type="submit"]');
-  const originalText = btn.textContent;
-
-  btn.textContent = 'Message Sent ✓';
-  btn.style.background = '#C6FF33';
-  btn.style.color = '#000000';
-  btn.disabled = true;
-
-  setTimeout(() => {
-    btn.textContent  = originalText;
-    btn.style.background = '';
-    btn.disabled     = false;
-    contactForm.reset();
-  }, 3000);
-});
+  document.addEventListener('click', (e) => {
+    if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+      langDropdown.classList.remove('open');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}

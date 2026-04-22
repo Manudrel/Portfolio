@@ -26,5 +26,6 @@ load_dotenv()
 
 urlpatterns = [
     path(os.getenv('ADMIN_URL'), admin.site.urls),
+    path('i18n/', include('django.conf.urls.i18n')),
     path('', portifolio_views.index, name='project_list'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

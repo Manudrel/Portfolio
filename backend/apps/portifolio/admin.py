@@ -9,8 +9,9 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'category')
     search_fields = ('name',)   
+    list_filter = ('category',)
 
 @admin.register(Experience)
 class ExperienceAdmin(admin.ModelAdmin):

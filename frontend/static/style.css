@@ -139,6 +139,89 @@ ul { list-style: none; }
 }
 
 /* ============================================================
+   LANG SWITCHER
+============================================================ */
+.lang-switcher {
+  position: relative;
+  display: inline-flex;
+}
+
+.lang-switcher__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid rgba(125, 57, 235, .35);
+  border-radius: 8px;
+  padding: 5px 8px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.lang-switcher__btn:hover,
+.lang-switcher__btn[aria-expanded="true"] {
+  border-color: var(--purple);
+  box-shadow: 0 0 12px rgba(125, 57, 235, .2);
+}
+
+.lang-switcher__btn img,
+.lang-switcher__dropdown img {
+  display: block;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.lang-switcher__dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid rgba(125, 57, 235, .3);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .5), 0 0 16px rgba(125, 57, 235, .1);
+  z-index: 200;
+  list-style: none;
+  flex-direction: column;
+  gap: 2px;
+  width: 52px; 
+  padding: 6px;
+}
+
+.lang-switcher__dropdown.open {
+  display: block !important;
+  animation: fadeDown .2s ease both;
+}
+
+.lang-switcher__dropdown li form {
+  margin: 0;
+}
+
+.lang-switcher__dropdown li button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 8px;
+  width: 100%; 
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.lang-switcher__dropdown li button:hover {
+  background: var(--purple-dim);
+  transform: scale(1.08);
+}
+
+.lang-switcher__dropdown li button.active {
+  outline: 1.5px solid var(--lime);
+  outline-offset: 2px;
+}
+/* ============================================================
    NOISE TEXTURE OVERLAY (grain effect)
 ============================================================ */
 body::before {
@@ -171,6 +254,7 @@ body::before {
 
 .navbar__inner {
   display: flex;
+  gap: 24px;
   align-items: center;
   justify-content: space-between;
 }
@@ -188,6 +272,8 @@ body::before {
 /* Nav links */
 .navbar__links {
   display: flex;
+  margin-left: auto;
+  margin-right: 24px;
   gap: 36px;
   align-items: center;
 }
