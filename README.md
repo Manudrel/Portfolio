@@ -1,4 +1,3 @@
-````markdown
 # Personal Portfolio (Django)
 
 A personal portfolio web application built with Django to showcase my projects, skills, and professional experience. This project was developed as a hands-on way to improve my backend development skills and gain more experience with Django.
