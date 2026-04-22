@@ -139,6 +139,6 @@ STATICFILES_DIRS = [
 
 # Media files (Uploaded images)
 
-MEDIA_ROOT = BASE_DIR / 'frontend' / 'static' / 'assets'
-MEDIA_URL = 'assets/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
